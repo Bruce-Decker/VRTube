@@ -8,7 +8,7 @@ const PORT = 5000;
 
 var app = express();
 
-var server = app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+//var server = app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 var index = require('./routes/index');
 var vr = require('./routes/vr');
