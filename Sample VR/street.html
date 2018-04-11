@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <a-asset-item id="model" src="damagedHelmet/damagedHelmet.gltf"></a-asset-item>
+         <a-asset-item id="model2" src="modular_environment/scene.gltf"></a-asset-item>
+    
+     </a-assets>
+     <a-entity position="1 0.5 3" gltf-model="#tree"></a-entity>
+      <a-entity scale="0.02 0.02 0.02" position="0 0 0" gltf-model="#model2"></a-entity>
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" src = "nature.jpg">
+         <a-animation attribute="rotation" repeat="indefinite" to="0 360 0">
+      </a-box>
+      
+     
+       
+      
+   
+
+  <a-entity position="1 0.5 3" gltf-model="#model"></a-entity>
+  
+   </a-scene>
+  </body>
+</html>
