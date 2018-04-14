@@ -7,10 +7,11 @@ var mkdir = require('mkdirp');
 var utils = require('./../util/utils');
 const saltRnd = 3;
 
+/*
 router.get('/login', function(req, res, next) {
   console.log("inside login");
 });
-
+*/
 
 router.post('/signup', function(req, res, next) {
   var firstName = req.body.firstname;
@@ -46,6 +47,38 @@ router.post('/signup', function(req, res, next) {
         }
       });
     }
+  });
+});
+
+router.post('/login' , function(req, res, next) {
+  var username = req.body.username;
+  var password = req.body.password;
+  var userQuery = "select * from user where email ='" + username +"'";
+  let status = 400;
+  let res_result = {
+                    message:'',
+                    username:''
+                   };
+  mysql.executeSQLQuery(userQuery, function(err, result) {
+    if(err) {
+      console.log(err);
+      res_result.message = "sql error !!!";
+    }else {
+      if(result.length > 0) {
+        if(bcrypt.compareSync(password, result[0].password)){
+          res_result.username = result[0].email;
+          res_result.message = "Login Successful!";
+          status = 201;
+        }else{
+          res_result.message = "Wrong username or password !!!";
+
+        }
+      }else{
+        res_result.message = "Username does not exist!!!";
+        console.log("Username Does not exist !!!");
+      }
+    }
+    res.status(status).json(res_result);
   });
 });
 
