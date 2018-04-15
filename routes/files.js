@@ -38,4 +38,12 @@ router.post('/upload' , function(req,res){
   }
 });
 
+
+router.post('/download',function(req, res, next) {
+  let download_path = path.join(all_userhome, req.body.username , req.body.filename);
+  console.log(download_path);
+  res.download(download_path);
+});
+
+
 module.exports = router;
