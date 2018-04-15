@@ -9,7 +9,7 @@ function getMySqlConnection(){
 	    host     : 'localhost',
 	    user     : 'root',
 	    password : 'root',
-	    database : 'cmpe290',
+	    database : 'cmpe280',
 	    port	 : 3306
 	});
 

@@ -68,7 +68,7 @@ router.post('/login' , function(req, res, next) {
         if(bcrypt.compareSync(password, result[0].password)){
           res_result.username = result[0].email;
           res_result.message = "Login Successful!";
-          status = 201;
+          status = 200;
         }else{
           res_result.message = "Wrong username or password !!!";
 
