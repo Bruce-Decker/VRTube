@@ -1,4 +1,4 @@
-function init() {
+$(document).ready(function() {
   var username = getParameterByName('userid');
   $("#usernameInput").val(username);
 
@@ -11,8 +11,9 @@ function init() {
     },
     success: function(res) {
       var json = JSON.parse(res);
+      var lgi = json.loginInfo;
 
-      if(json.loginInfo.loggedIn) {
+      if(lgi.loggedIn) {
         $("#liLogin").hide();
         $("#liLogout").show();
       } else {
@@ -20,12 +21,13 @@ function init() {
         $("#liLogin").show();
       }
 
-      if(json.loginInfo.loggedIn && json.loginInfo.username == username) {
-        console.log('good');
-        console.log(json);
+      if(lgi.loggedIn && lgi.username == username) {
+        $("#spnName").html(lgi.firstName + " " + lgi.lastName);
+        $("#spnUsername").html(lgi.username);
+        $("#spnEmail").html(lgi.email);
       } else {
-        console.log('different user');
-        console.log(json);
+        $("button.loggedInOnly").hide();
+        $("#vrtab h2").html(username + "'s Virtual Realities");
       }
     }
   });
@@ -45,11 +47,20 @@ function init() {
         console.log("file upload error...");
       },
       success: function(res) {
-        console.log("file upload success!!!")
+        console.log("file upload success!!!");
+        // clear the input fields
+        document.getElementById("fileForm").reset();
+
+        $("#uploadSuccessSpan").show(function() {
+          $(this).fadeOut(5000);
+        });
       }
     });
   });
-}
+
+  // display the user's VRs, if any
+  getVRs();
+});
 
 // Switch to a tab on the user profile
 function openTab(evt, tabName) {
@@ -62,8 +73,51 @@ function openTab(evt, tabName) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
+  if(tabName === "vrtab") {
+    getVRs();
+  }
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
+}
+
+// Get & show VRs for this user
+function getVRs() {
+  var username = getParameterByName('userid');
+  $.ajax({
+    type: 'GET',
+    url: '/files/uservrs',
+    data: {
+      username: username
+    },
+    success: function(res) {
+      var json = JSON.parse(res);
+      //console.log(json);
+      var rows = json.result;
+
+      var tbl = $("#vrtable").empty();
+      var row,tr,td,img,h4,p;
+      for(var i=0; i<rows.length; i++) {
+        row = rows[i];
+        if(i % 4 === 0) {
+          if(i !== 0) {
+            tr.appendTo(tbl);
+          }
+          tr = $("<tr/>");
+        }
+        td = $("<td/>");
+        img = $("<img/>");
+        img.attr("src", row.filepath)
+           .attr("alt", row.filename)
+           .attr("height", "200")
+           .attr("width", "300")
+           .appendTo(td);
+        h4 = $("<h4/>").html(row.filename).appendTo(td);
+        p = $("<p/>").html(row.description).appendTo(td);
+        td.appendTo(tr);
+      }
+      tbl.append(tr);
+    }
+  });
 }
 
 // Enable submit file
@@ -71,26 +125,6 @@ function enableSubmit() {
   //$("#fileButton").prop("disabled", false);
   $("#fileSubmit").prop("disabled", false);
 }
-
-// Upload the file
-/*
-function uploadFile() {
-  var uploadForm = $("#fileForm");
-  var formData = new FormData(uploadForm);
-  $.ajax({
-    type: 'POST',
-    url: '/files/upload',
-    processData: false,
-    contentType: false,
-    data: formData,
-    error: function(err) {
-      console.log("file upload error...");
-    },
-    success: function(res) {
-      console.log("file upload success!!!")
-    }
-  });
-}*/
 
 // Get a URL query parameter by name
 function getParameterByName(name, url) {

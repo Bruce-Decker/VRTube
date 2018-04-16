@@ -13,7 +13,8 @@ var currentUser = {
   id: '',
   username: '',
   firstName: '',
-  lastName: ''
+  lastName: '',
+  email: ''
 };
 
 // render user page
@@ -119,7 +120,8 @@ router.post('/login' , function(req, res, next) {
           currentUser.username = result[0].username;
           currentUser.firstName = result[0].firstname;
           currentUser.lastName = result[0].lastname;
-          console.log(currentUser);
+          currentUser.email = result[0].email;
+          //console.log(currentUser);
         }else{
           res_result.message = "Wrong username or password !!!";
         }
