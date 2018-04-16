@@ -46,4 +46,31 @@ router.post('/download',function(req, res, next) {
 });
 
 
+router.post('/search' , function(req , res , next) {
+  console.log("inside search");
+  var txt = req.body.search;
+  let res_result =  {
+                      message : '',
+                      result:''
+                    };
+  var serach_query = "select * from files where filename like '%" + txt + "%' or filename like '%" + txt + "' or filename like '" + txt + "%' or description like '%" + txt + "%' or description like '%" + txt + "' or description like '" + txt + "%'";
+  console.log(serach_query);
+  mysql.executeSQLQuery(serach_query, function(err , rows){
+    if(err) {
+      res_result.message = "Search Failed";
+      res.status(400).json(res_result);
+    } else {
+      if(rows.length <= 0) {
+        res_result.message = "No search results found";
+        res.status(200).json(res_result);
+      }else {
+        res_result.message = "Search Successful";
+        res_result.result = rows;
+        res.status(200).json(res_result);
+      }
+    }
+  });
+});
+
+
 module.exports = router;
