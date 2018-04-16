@@ -8,22 +8,26 @@ const all_userhome = path.join(__dirname,'./../uploads');
 
 
 router.post('/upload' , function(req,res){
-  if(req.files.userfile){
-    let data = req.files.userfile,
-    filename = data.name,
-    username = req.body.username;
-    let des_path = path.join(__dirname ,'./../uploads' , username);
-    let res_result =  {
-                        message:''
-                      };
+  if(req.files.fileInput){
+    let data = req.files.fileInput;
+    let filename = data.name;
+    let username = req.body.usernameInput;
+    let description = req.body.descriptionInput;
+    let des_path = path.join(__dirname, './../uploads', username, filename);
+    let access_path = path.join(username, filename);
+    let res_result =  {message:''};
+
     data.mv(des_path,function(err){
       if(err){
+        console.log(err);
         res.status(400).json("Upload Failed !!!");
       }else {
-        var insertRecord = "insert into files (filename, filepath, owner, likes) values ('"+ filename + "','" + des_path + "','" + username + "'," + 0 + ")";
+        var insertRecord = "insert into files (filename, filepath, owner, likes, description) values ('"+ 
+        filename + "','" + access_path + "','" + username + "'," + 0 + ",'" + description + "')";
         console.log(insertRecord);
         mysql.executeSQLQuery(insertRecord, function(err, result){
           if(err){
+            console.log(err);
             res_result.message = "Upload failed !!!"
             res.status(400).json(res_result);
           }else {
@@ -34,7 +38,7 @@ router.post('/upload' , function(req,res){
       }
     });
   }else{
-    res.status(400).json("File not found or file not choosen by user !!!");
+    res.status(400).json("File not found or file not chosen by user !!!");
   }
 });
 
@@ -46,6 +50,34 @@ router.post('/download',function(req, res, next) {
 });
 
 
+router.get('/uservrs', function(req, res, next) {
+  let username = req.query.username;
+  let res_result =  { message : '', result:'' };
+  if(!username) {
+    res_result.message = "Client-side error: illegitimate username provided"
+    res.status(400).json(res_result);
+  } else {
+    var vr_query = "select * from files where owner='" + username + "'";
+    console.log(vr_query);
+    mysql.executeSQLQuery(vr_query, function(err , rows){
+      if(err) {
+        res_result.message = "VR query failed for " + username;
+        res.status(500).json(res_result);
+      } else {
+        if(rows.length <= 0) {
+          res_result.message = "No VRs found for " + username;
+          res.status(200).json(res_result);
+        }else {
+          res_result.message = "VR retrieval successful";
+          res_result.result = rows;
+          res.send(JSON.stringify(res_result));
+        }
+      }
+    });
+  }
+});
+
+
 router.post('/search' , function(req , res , next) {
   console.log("inside search");
   var txt = req.body.search;
@@ -53,9 +85,11 @@ router.post('/search' , function(req , res , next) {
                       message : '',
                       result:''
                     };
-  var serach_query = "select * from files where filename like '%" + txt + "%' or filename like '%" + txt + "' or filename like '" + txt + "%' or description like '%" + txt + "%' or description like '%" + txt + "' or description like '" + txt + "%'";
-  console.log(serach_query);
-  mysql.executeSQLQuery(serach_query, function(err , rows){
+  var search_query = "select * from files where filename like '%" + txt + "%' or filename like '%" + txt +
+    "' or filename like '" + txt + "%' or description like '%" + txt + "%' or description like '%" + txt +
+    "' or description like '" + txt + "%'";
+  console.log(search_query);
+  mysql.executeSQLQuery(search_query, function(err , rows){
     if(err) {
       res_result.message = "Search Failed";
       res.status(400).json(res_result);

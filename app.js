@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 const PORT = 5000;
 
 var app = express();
@@ -26,6 +27,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(fileUpload());
 
 app.use('/', index);
 app.use('/vr', vr);
