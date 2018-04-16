@@ -8,22 +8,25 @@ const all_userhome = path.join(__dirname,'./../uploads');
 
 
 router.post('/upload' , function(req,res){
-  if(req.files.userfile){
-    let data = req.files.userfile,
-    filename = data.name,
-    username = req.body.username;
-    let des_path = path.join(__dirname ,'./../uploads' , username);
-    let res_result =  {
-                        message:''
-                      };
+  if(req.files.fileInput){
+    let data = req.files.fileInput;
+    let filename = data.name;
+    let username = req.body.usernameInput;
+    let description = req.body.descriptionInput;
+    let des_path = path.join(__dirname, './../uploads', username, filename);
+    let res_result =  {message:''};
+
     data.mv(des_path,function(err){
       if(err){
+        console.log(err);
         res.status(400).json("Upload Failed !!!");
       }else {
-        var insertRecord = "insert into files (filename, filepath, owner, likes) values ('"+ filename + "','" + des_path + "','" + username + "'," + 0 + ")";
+        var insertRecord = "insert into files (filename, filepath, owner, likes, description) values ('"+ 
+        filename + "','" + des_path + "','" + username + "'," + 0 + ",'" + description + "')";
         console.log(insertRecord);
         mysql.executeSQLQuery(insertRecord, function(err, result){
           if(err){
+            console.log(err);
             res_result.message = "Upload failed !!!"
             res.status(400).json(res_result);
           }else {
@@ -34,7 +37,7 @@ router.post('/upload' , function(req,res){
       }
     });
   }else{
-    res.status(400).json("File not found or file not choosen by user !!!");
+    res.status(400).json("File not found or file not chosen by user !!!");
   }
 });
 

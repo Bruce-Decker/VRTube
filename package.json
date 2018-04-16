@@ -12,6 +12,7 @@
     "debug": "^2.6.9",
     "ejs": "^2.5.8",
     "express": "~4.15.2",
+    "express-fileupload": "^0.4.0",
     "fs": "0.0.1-security",
     "http": "0.0.0",
     "jade": "~1.11.0",
