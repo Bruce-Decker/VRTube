@@ -113,11 +113,19 @@ function getVRs() {
            .appendTo(td);
         h4 = $("<h4/>").html(row.filename).appendTo(td);
         p = $("<p/>").html(row.description).appendTo(td);
+        td.click(vrClickHandler(row.id));
         td.appendTo(tr);
       }
       tbl.append(tr);
     }
   });
+}
+
+// Returns a click handler for a VR
+function vrClickHandler(id) {
+  return function() {
+    window.location.href = "/vr?vrid=" + id
+  }
 }
 
 // Enable submit file

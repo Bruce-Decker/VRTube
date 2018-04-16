@@ -79,6 +79,10 @@ td{
   margin: 5px;
 }
 
+td:hover{
+  background-color: #ccc;
+}
+
 p.pSettings {
   font-weight: bold;
   font-size: 13pt;
