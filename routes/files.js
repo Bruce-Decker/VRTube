@@ -72,5 +72,39 @@ router.post('/search' , function(req , res , next) {
   });
 });
 
+router.post('/like' , function(req, res , next){
+  console.log("inside like");
+  var filename = req.body.filename;
+  var owner = req.body.owner;
+  var res_result =  {
+                      message : '',
+                      result:''
+                    };
+  var serach_file = "select * from files where filename ='" + filename + "' and owner = '" + owner +"'";
+  console.log(serach_file);
+  mysql.executeSQLQuery(serach_file, function(err , rows){
+      if(err) {
+        res_result.message = "DB Connection Failed";
+        res.status(400).json(res_result);
+      }else {
+        console.log(rows[0]);
+         var updatedLikes= rows[0].likes + 1;
+         console.log(updatedLikes);
+         var update_query = "UPDATE files SET LIKES =" +  updatedLikes + " WHERE filename ='" + filename + "' and owner = '" + owner +"'";
+         console.log(update_query);
+         mysql.executeSQLQuery(update_query, function(err , rows){
+           if(!err) {
+             var serach_updated_record = "select * from files where filename ='" + filename + "' and owner = '" + owner +"'";
+             mysql.executeSQLQuery(serach_updated_record, function(err , rows){
+               res_result.message = "Successfully liked the VR";
+               res_result.result = rows;
+               res.status(200).json(res_result);
+             });
+           }
+         });
+      }
+  });
+});
+
 
 module.exports = router;
