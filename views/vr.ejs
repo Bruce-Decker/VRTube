@@ -5,22 +5,107 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
     <script src="js/vr.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="css/vr.css">
   </head>
   <body>
-    <h1>VR Page</h1>
-    <div style="height:500px;width:800px;">
-      <a-scene embedded>
-        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-        <a-sky color="#ECECEC"></a-sky>
-      </a-scene>
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Virtual Reality Home</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input id="searchField" type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <!-- TODO: figure out why Login dropdown doesn't work
+            <li id="liLogin" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+              <ul id="login-dp" class="dropdown-menu">
+                <li>
+                   <div class="row">
+                      <div class="col-md-12">
+                                        
+                         <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                            <div class="form-group">
+                               <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                               <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+                            </div>
+                            <div class="form-group">
+                               <label class="sr-only" for="exampleInputPassword2">Password</label>
+                               <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required pattern = "[A-Z]{3}[0-9]{4}">
+                                                     <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+                            </div>
+                            <div class="form-group">
+                               <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                            </div>
+                            <div class="checkbox">
+                               <label>
+                               <input type="checkbox"> keep me logged-in
+                               </label>
+                            </div>
+                         </form>
+                      </div>
+                      <div class="bottom text-center">
+                        New here ? <a href="#"><b>Join Us</b></a>
+                      </div>
+                   </div>
+                </li>
+              </ul>
+            </li>
+            <li id="liLogout"><a href="javascript:void(0);" onclick="showLogoutDialog();">Logout</a></li>-->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div id="row">
+      <div id="col1">
+        <div id="main">
+          <a-scene embedded>
+            <a-assets>
+              <img id="sky">
+            </a-assets>
+            <a-sky src="#sky"></a-sky>
+          </a-scene>
+        </div>
+        <div id="details">
+          <div id="dtCol1"><h3></h3></div>
+          <div id="dtCol2">
+            <h3>
+              <span></span>
+              <i id="regThumb" class="far fa-thumbs-up"></i>
+              <i id="sldThumb" class="fas fa-thumbs-up" style="display:none;"></i>
+            </h3>
+          </div>
+          <div id="dtCol3"></div>
+        </div>
+        <div id="description">
+          <p></p>
+        </div>
+        <div id="comments">
+          <table id="tblComments"></table>
+        </div>
+      </div>
+      <div id="col2">
+        <h3>Recently Uploaded VRs</h3>
+        <table id="tblVRs"></table>
+      </div>
     </div>
-    <div id="test"></div>
   </body>
 </html>

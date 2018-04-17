@@ -1,1 +1,105 @@
-body {}
+#searchField {
+  width: 500px;
+}
+
+#confirmLogout {
+  display: none;
+}
+
+div#row {
+  padding: 5px 20px 0px 20px;
+}
+
+div#col1 {
+  float: left;
+  width: 80%;
+  padding-right: 20px;
+}
+
+div#col2 {
+  float: left;
+  width: 20%;
+  overflow: auto;
+  height: 1000px;
+}
+
+div#main {
+  height: 600px;
+}
+
+div#details {
+  height: 60px;
+  background-color: #eee;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+div#description {
+  background-color: #eee;
+  padding: 5px 10px 5px 10px;
+}
+
+div#dtCol1 {
+  float: left;
+  width: 50%;
+}
+
+div#dtCol2 {
+  float: left;
+  width: 10%;
+  text-align: right;
+  padding-right: 10px;
+}
+
+div#dtCol3 {
+  float: left;
+  width: 40%;
+  text-align: right;
+}
+
+div#comments {
+  background-color: pink;
+}
+
+table{
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 5px;
+}
+
+td{
+  width: 25%;
+  text-align: left;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  margin: 5px;
+}
+
+td:hover{
+  background-color: #ccc;
+}
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

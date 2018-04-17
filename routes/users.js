@@ -20,6 +20,7 @@ var currentUser = {
 // render user page
 router.get('/', function(req, res, next) {
   var id = req.query.userid;
+  // TODO: show error on nonexistent user
   id ? res.render('user') : res.render('error');
 });
 

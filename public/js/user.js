@@ -124,7 +124,7 @@ function getVRs() {
 // Returns a click handler for a VR
 function vrClickHandler(id) {
   return function() {
-    window.location.href = "/vr?vrid=" + id
+    window.location.href = "/vr?vrid=" + id;
   }
 }
 
