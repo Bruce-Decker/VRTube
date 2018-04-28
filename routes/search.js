@@ -14,4 +14,8 @@ router.get('/', function(req, res, next) {
   }
 });
 
+router.post('/findVal', function(req, res, next) {
+  res.redirect('/search?q=' + req.body.searchField);
+});
+
 module.exports = router;
