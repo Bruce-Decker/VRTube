@@ -61,6 +61,10 @@ div#comments {
   background-color: pink;
 }
 
+#dtCol2 h3 span {
+  padding-right: 5px;
+}
+
 table{
   width: 100%;
   border-collapse: separate;

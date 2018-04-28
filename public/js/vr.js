@@ -1,12 +1,15 @@
+var currentVR;
+
 $(document).ready(function() {
   $.ajax({
     type: 'GET',
     url: '/vr/getVrInfo',
     dataType: 'json',
     success: function(res) {
+      currentVR = res;
       $("#sky").attr("src", res.filepath);
       $("#dtCol1 h3").html(res.filename);
-      $("#dtCol2 h3 span").html(res.likes + " ");
+      $("#dtCol2 h3 span").html(res.likes);
       $("#dtCol3").html($("<h3>").html("Uploaded by " +
         "<a href='/users?userid=" + res.owner + "'>" + res.owner + "</a> on " +
         res.timestamp.split('T')[0]));
@@ -68,7 +71,28 @@ function vrClickHandler(id) {
   }
 }
 
-
+// Increases the number of likes for the featured VR
+function addLike() {
+  var span = $("#likeh3").children().first();
+  var likes = parseInt(span.html());
+  console.log(likes);
+  span.html(likes+1);
+  $.ajax({
+    type: 'POST',
+    url: '/files/like',
+    dataType: 'json',
+    data: {
+      filename: currentVR.filename,
+      owner: currentVR.owner
+    },
+    success: function(res) {
+      ;//
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+}
 
 
 
