@@ -83,7 +83,7 @@ router.post('/search' , function(req , res , next) {
   var txt = req.body.search;
   let res_result =  {
                       message : '',
-                      result:''
+                      result:[]
                     };
   var search_query = "select * from files where filename like '%" + txt + "%' or filename like '%" + txt +
     "' or filename like '" + txt + "%' or description like '%" + txt + "%' or description like '%" + txt +
