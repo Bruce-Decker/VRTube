@@ -60,7 +60,7 @@ router.post('/signup', function(req, res, next) {
                       message:''
                     };
 
-  var checkQuery = "SELECT * FROM USER WHERE username = '" + userName + "' or email = '" + email + "'";
+  var checkQuery = "select * from user where username ='" + username +"'";
   mysql.executeSQLQuery(checkQuery , function(err , results){
     if(results.length <= 0) {
       bcrypt.hash(password, saltRnd, function(err, hashpassword) {
@@ -89,24 +89,24 @@ router.post('/signup', function(req, res, next) {
                                     message:'',
                                     username:''
                                    };
-                  mysql.executeSQLQuery(userQuery2, function(err, result) {
+                  mysql.executeSQLQuery(userQuery2, function(err, result2) {
                     if(err) {
                       console.log(err);
                       res_result2.message = "sql error when attempting login!!!";
                     }else {
-                      res_result2.id = result[0].id;
-                      res_result2.username = result[0].username;
+                      res_result2.id = result2[0].id;
+                      res_result2.username = result2[0].username;
                       res_result2.message = "Login successful!";
                       status2 = 200;
                       console.log("User '" + userName + "' logged in");
 
                       // set session variables for this user
                       currentUser.loggedIn = true;
-                      currentUser.id = result[0].id;
-                      currentUser.username = result[0].username;
-                      currentUser.firstName = result[0].firstname;
-                      currentUser.lastName = result[0].lastname;
-                      currentUser.email = result[0].email;
+                      currentUser.id = result2[0].id;
+                      currentUser.username = result2[0].username;
+                      currentUser.firstName = result2[0].firstname;
+                      currentUser.lastName = result2[0].lastname;
+                      currentUser.email = result2[0].email;
                       //console.log(currentUser);
                     }
                     if(status2 === 200) {
