@@ -9,6 +9,8 @@
   "dependencies": {
     "bcrypt": "^2.0.0",
     "body-parser": "~1.17.1",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "cookie-parser": "~1.4.3",
     "debug": "^2.6.9",
     "ejs": "^2.5.8",
@@ -18,13 +20,12 @@
     "http": "0.0.0",
     "jade": "~1.11.0",
     "mkdirp": "^0.5.1",
+    "mocha": "^4.0.1",
     "morgan": "~1.8.1",
     "mysql": "^2.15.0",
     "nodemon": "^1.17.3",
     "path": "^0.12.7",
     "serve-favicon": "~2.4.2",
-    "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
-    "mocha": "^4.0.1"
+    "time-stamp": "^2.0.0"
   }
 }

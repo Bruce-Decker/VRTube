@@ -6,6 +6,7 @@ var path = require('path');
 var mkdir = require('mkdirp');
 var utils = require('./../util/utils');
 const saltRnd = 3;
+var localStorage = require('localStorage')
 
 // keep track of whether a user is logged in
 var currentUser = {
@@ -28,6 +29,7 @@ router.get('/', function(req, res, next) {
 router.get('/getUserInfo', function(req, res, next) {
   var username = req.query.username;
   var userInfo = { loginInfo: currentUser };
+  localStorage.setItem('username', username);
 
   // get list of VRs from database
   var query = "select * from files where owner ='" + username + "'";
@@ -66,6 +68,7 @@ router.post('/signup', function(req, res, next) {
       bcrypt.hash(password, saltRnd, function(err, hashpassword) {
         if(!err) {
           var userHome = userName;
+          localStorage.setItem("username", username)
           var userQuery = "insert into user (firstname, lastname, username, password, homedir, email) values ('"+
           firstName + "','" + lastName + "','" + userName + "','" + hashpassword + "','" + userHome +"','"+email+"')";
           console.log(userQuery);
@@ -145,6 +148,7 @@ router.post('/login' , function(req, res, next) {
                     message:'',
                     username:''
                    };
+ localStorage.setItem("username", username)
   mysql.executeSQLQuery(userQuery, function(err, result) {
     if(err) {
       console.log(err);

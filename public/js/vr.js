@@ -1,4 +1,5 @@
 var currentVR;
+ var filename
 
 $(document).ready(function() {
   $.ajax({
@@ -8,12 +9,14 @@ $(document).ready(function() {
     success: function(res) {
       currentVR = res;
       $("#sky").attr("src", res.filepath);
+       filename = res.filename
       $("#dtCol1 h3").html(res.filename);
       $("#dtCol2 h3 span").html(res.likes);
       $("#dtCol3").html($("<h3>").html("Uploaded by " +
         "<a href='/users?userid=" + res.owner + "'>" + res.owner + "</a> on " +
         res.timestamp.split('T')[0]));
       $("#description p").html(res.description);
+      setTimeout(display_comments(), 2000)
     },
     error: function(err) {
       console.log(err);
@@ -53,6 +56,58 @@ $(document).ready(function() {
       console.log(err);
     }
   });
+
+  function display_comments() {
+   var $s = $('#result');
+   $s.append( '<table class = "table">')
+   $.ajax({
+           type: 'GET',
+           url: '/vr/getComments',
+           success: function(datas) {
+            var space_s = '&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
+            var space = '&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+             $.each(datas, function(i, data){
+              
+              
+                
+                 //  http://localhost:3000/users?userid=bydecker
+                 console.log("filename " + filename)
+                 console.log("data.filename  " + data.filename)
+                 
+                   console.log("data username " + data.username)
+
+                  
+                  
+                      if (filename == data.filename) {
+
+                     
+                         $s.append('<tbody> <tr>');
+                         
+                          if (data.username == null) {
+                             $s.append('<td>' + "Anonymous: "  +  data.comment + '</td>')
+                              $s.append('<td>' +  data.time + '</td>')
+
+                          } else {
+                            $s.append('<td>' + data.username + ": "  +  data.comment + "           " + '</td>')
+                            $s.append('<td>' + data.time + '</td>')
+                          }
+                       
+                           
+                       
+                         $s.append('  </tr>' + ' </tbody> ')
+                    }
+                    
+                  
+             });
+           },
+          error: function() {
+              alert('no')
+          },
+          async: false
+         
+        });
+
+  }
 
   $("#dtCol2 h3").on("mouseenter", function() {
     $("#regThumb").css("display", "none");

@@ -98,9 +98,17 @@
         <div id="description">
           <p></p>
         </div>
-        <div id="comments">
-          <table id="tblComments"></table>
-        </div>
+        <form role="vr" action = "/vr/submitComment" method = "POST">
+                 <label for="comment">Comment:</label>
+                 <textarea class="form-control" rows="5" name="comment"></textarea>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div id = "result"></div>
+       
+
+
+
+
       </div>
       <div id="col2">
         <h3>Recently Uploaded VRs</h3>
