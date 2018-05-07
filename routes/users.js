@@ -49,6 +49,7 @@ router.get('/getUserInfo', function(req, res, next) {
 });
 
 // register a new account
+// register a new account
 router.post('/signup', function(req, res, next) {
   var firstName = req.body.firstname;
   var lastName = req.body.lastname;
@@ -59,34 +60,41 @@ router.post('/signup', function(req, res, next) {
                       message:''
                     };
 
-  // TODO: check for duplicate username
-  bcrypt.hash(password, saltRnd, function(err, hashpassword) {
-    if(!err) {
-      var userHome = userName;
-      var userQuery = "insert into user (firstname, lastname, username, password, homedir, email) values ('"+
-      firstName + "','" + lastName + "','" + userName + "','" + hashpassword + "','" + userHome +"','"+email+"')";
-      console.log(userQuery);
+  var checkQuery = "SELECT * FROM USER WHERE username = '" + userName + "' or email = '" + email + "'";
+  mysql.executeSQLQuery(checkQuery , function(err , results){
+    if(results.length <= 0) {
+      bcrypt.hash(password, saltRnd, function(err, hashpassword) {
+        if(!err) {
+          var userHome = userName;
+          var userQuery = "insert into user (firstname, lastname, username, password, homedir, email) values ('"+
+          firstName + "','" + lastName + "','" + userName + "','" + hashpassword + "','" + userHome +"','"+email+"')";
+          console.log(userQuery);
 
-      mysql.executeSQLQuery(userQuery, function(err, result){
-        if(err){
-          res_result.message = "Registration failed !!!";
-          res.status(400).json(res_result);
-        }else{
-          var success_msg = "User '"+ firstName+"'' added successfully !!!";
-          utils.createDirectory(path.join(__dirname , './../uploads' , userHome) , function(status) {
-            if(status) {
-              res_result.message = "Registration succeeded !!!";
-              res.status(200).json(res_result);
-              console.log("User '"+ firstName+"'' registered!");
-            }else {
-              console.log("[Unable to create directory] for user: " + userName);
+          mysql.executeSQLQuery(userQuery, function(err, result){
+            if(err){
+              res_result.message = "Registration failed !!!";
+              res.status(400).json(res_result);
+            }else{
+              var success_msg = "User '"+ firstName+"'' added successfully !!!";
+              utils.createDirectory(path.join(__dirname , './../uploads' , userHome) , function(status) {
+                if(status) {
+                  res_result.message = "Registration succeeded !!!";
+                  res.status(200).json(res_result);
+                  console.log("User '"+ firstName+"'' registered!");
+                }else {
+                  console.log("[Unable to create directory] for user: " + userName);
+                }
+              });
             }
           });
+        } else {
+          res_result.message = "Error hashing password";
+          res.status(500).json(res_result);
         }
       });
-    } else {
-      res_result.message = "Error hashing password";
-      res.status(500).json(res_result);
+    }else{
+      res_result.message = "username or email already exists!"
+      res.status(200).json(res_result);
     }
   });
 });
