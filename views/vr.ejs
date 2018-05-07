@@ -97,18 +97,17 @@
         </div>
         <div id="description">
           <p></p>
+        </div><br/>
+        <div id="addCommentDiv">
+          <form role="vr" action = "/vr/submitComment" method = "POST">
+            <label for="comment">Add a comment:</label>
+            <textarea class="form-control" rows="5" name="comment"></textarea>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         </div>
-        <form role="vr" action = "/vr/submitComment" method = "POST">
-                 <label for="comment">Comment:</label>
-                 <textarea class="form-control" rows="5" name="comment"></textarea>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <div id = "result"></div>
-       
-
-
-
-
+        <div>
+          <table id="tblComments"></table>
+        </div>
       </div>
       <div id="col2">
         <h3>Recently Uploaded VRs</h3>

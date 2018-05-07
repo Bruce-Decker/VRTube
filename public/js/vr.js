@@ -1,5 +1,5 @@
 var currentVR;
- var filename
+var filename;
 
 $(document).ready(function() {
   $.ajax({
@@ -9,7 +9,7 @@ $(document).ready(function() {
     success: function(res) {
       currentVR = res;
       $("#sky").attr("src", res.filepath);
-       filename = res.filename
+      filename = res.filename;
       $("#dtCol1 h3").html(res.filename);
       $("#dtCol2 h3 span").html(res.likes);
       $("#dtCol3").html($("<h3>").html("Uploaded by " +
@@ -58,55 +58,33 @@ $(document).ready(function() {
   });
 
   function display_comments() {
-   var $s = $('#result');
-   $s.append( '<table class = "table">')
-   $.ajax({
-           type: 'GET',
-           url: '/vr/getComments',
-           success: function(datas) {
-            var space_s = '&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
-            var space = '&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-             $.each(datas, function(i, data){
-              
-              
-                
-                 //  http://localhost:3000/users?userid=bydecker
-                 console.log("filename " + filename)
-                 console.log("data.filename  " + data.filename)
-                 
-                   console.log("data username " + data.username)
-
-                  
-                  
-                      if (filename == data.filename) {
-
-                     
-                         $s.append('<tbody> <tr>');
-                         
-                          if (data.username == null) {
-                             $s.append('<td>' + "Anonymous: "  +  data.comment + '</td>')
-                              $s.append('<td>' +  data.time + '</td>')
-
-                          } else {
-                            $s.append('<td>' + data.username + ": "  +  data.comment + "           " + '</td>')
-                            $s.append('<td>' + data.time + '</td>')
-                          }
-                       
-                           
-                       
-                         $s.append('  </tr>' + ' </tbody> ')
-                    }
-                    
-                  
-             });
-           },
-          error: function() {
-              alert('no')
-          },
-          async: false
-         
+    var $s = $('#tblComments');
+    $.ajax({
+      type: 'GET',
+      url: '/vr/getComments',
+      success: function(datas) {
+        $.each(datas, function(i, data){
+          console.log("username|filename: " + data.username + "|" + data.filename);
+  
+          if (filename == data.filename) {
+            let tr = $('<tr>');
+            let un = (data.username == null || data.username == undefined) ?
+              "Anonymous" : "<a href='/users?userid=" + data.username + "'>" +
+              data.username + "</a>";
+            let td = $('<td>');
+            let p1 = $('<p>').html(un + '&nbsp;&nbsp;&nbsp;' + data.time);
+            let p2 = $('<p>').html(data.comment);
+            td.append(p1).append(p2);
+            tr.append(td);
+            $s.append(tr);
+          }        
         });
-
+      },
+      error: function() {
+          alert('no')
+      },
+      async: false
+    });
   }
 
   $("#dtCol2 h3").on("mouseenter", function() {
