@@ -71,8 +71,8 @@ table{
   border-spacing: 5px;
 }
 
-td{
-  width: 25%;
+#tblVRs td{
+  width: 100%;
   text-align: left;
   border-radius: 10px;
   padding: 10px;
@@ -80,8 +80,17 @@ td{
   margin: 5px;
 }
 
-td:hover{
+#tblVRs td:hover{
   background-color: #ccc;
+}
+
+#tblComments td{
+  width: 100%;
+  text-align: left;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  margin: 5px;
 }
 
 
