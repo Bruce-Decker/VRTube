@@ -79,8 +79,43 @@ router.post('/signup', function(req, res, next) {
               utils.createDirectory(path.join(__dirname , './../uploads' , userHome) , function(status) {
                 if(status) {
                   res_result.message = "Registration succeeded !!!";
-                  res.status(200).json(res_result);
+                  //res.status(200).json(res_result);
                   console.log("User '"+ firstName+"'' registered!");
+
+                  let userQuery2 = "select * from user where username ='" + userName +"'";
+                  let status2 = 400;
+                  let res_result2 = {
+                                    id:'',
+                                    message:'',
+                                    username:''
+                                   };
+                  mysql.executeSQLQuery(userQuery2, function(err, result) {
+                    if(err) {
+                      console.log(err);
+                      res_result2.message = "sql error when attempting login!!!";
+                    }else {
+                      res_result2.id = result[0].id;
+                      res_result2.username = result[0].username;
+                      res_result2.message = "Login successful!";
+                      status2 = 200;
+                      console.log("User '" + userName + "' logged in");
+
+                      // set session variables for this user
+                      currentUser.loggedIn = true;
+                      currentUser.id = result[0].id;
+                      currentUser.username = result[0].username;
+                      currentUser.firstName = result[0].firstname;
+                      currentUser.lastName = result[0].lastname;
+                      currentUser.email = result[0].email;
+                      //console.log(currentUser);
+                    }
+                    if(status2 === 200) {
+                      res.redirect('/users?userid=' + res_result2.username);
+                    } else {
+                      res.status(status2).json(res_result2);
+                    }
+                  });
+
                 }else {
                   console.log("[Unable to create directory] for user: " + userName);
                 }
@@ -101,8 +136,8 @@ router.post('/signup', function(req, res, next) {
 
 // login to an existing account
 router.post('/login' , function(req, res, next) {
-  var username = req.body.username;
-  var password = req.body.password;
+  var username = req.body.username2;
+  var password = req.body.password2;
   var userQuery = "select * from user where username ='" + username +"'";
   let status = 400;
   let res_result = {
@@ -140,7 +175,7 @@ router.post('/login' , function(req, res, next) {
       }
     }
     if(status === 200) {
-      res.redirect('/?userid=' + res_result.username);
+      res.redirect('/users?userid=' + res_result.username);
     } else {
       res.status(status).json(res_result);
     }
