@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "mocha"
   },
   "dependencies": {
     "bcrypt": "^2.0.0",
@@ -21,6 +22,9 @@
     "mysql": "^2.15.0",
     "nodemon": "^1.17.3",
     "path": "^0.12.7",
-    "serve-favicon": "~2.4.2"
+    "serve-favicon": "~2.4.2",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "mocha": "^4.0.1"
   }
 }
