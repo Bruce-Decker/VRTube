@@ -51,7 +51,7 @@ router.get('/getOtherVrs', function(req, res, next) {
       } else {
         vrs.arr = null;
         vrs.errorMessage = "no VR found !!!";
-        res.send(400).json(vrInfo);
+        res.send(400).json(vrs);
       }
     }
   });
