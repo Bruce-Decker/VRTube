@@ -16,7 +16,7 @@ router.get('/getVrInfo', function(req, res, next) {
       console.log(err);
       vrInfo.vr = null;
       vrInfo.errorMessage = "sql error when attempting to obtain VR with id=" + id + " !!!";
-      res.send(500).json(vrInfo);
+      res.status(500).json(vrInfo);
     } else {
       if(result.length > 0) {
         var json = JSON.parse(JSON.stringify(result));
@@ -25,7 +25,7 @@ router.get('/getVrInfo', function(req, res, next) {
       } else {
         vrInfo.vr = null;
         vrInfo.errorMessage = "no VR found for id=" + id + " !!!";
-        res.send(400).json(vrInfo);
+        res.status(400).json(vrInfo);
       }
     }
   });
@@ -42,7 +42,7 @@ router.get('/getOtherVrs', function(req, res, next) {
       console.log(err);
       vrs.arr = null;
       vrs.errorMessage = "sql error when attempting to obtain VRs !!!";
-      res.send(500).json(vrs);
+      res.status(500).json(vrs);
     } else {
       if(result.length > 0) {
         var json = JSON.parse(JSON.stringify(result));
@@ -51,7 +51,7 @@ router.get('/getOtherVrs', function(req, res, next) {
       } else {
         vrs.arr = null;
         vrs.errorMessage = "no VR found !!!";
-        res.send(400).json(vrs);
+        res.status(400).json(vrs);
       }
     }
   });
