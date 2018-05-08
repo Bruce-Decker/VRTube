@@ -7,12 +7,22 @@ $(document).ready(function() {
     url: '/vr/getVrInfo',
     dataType: 'json',
     success: function(res) {
+      let hSize;
+      if(iOS()) {
+        hSize = "<h5>";
+        $("#dtCol1").css("float","none").css("width","100%");
+        $("#dtCol2").css("float","none").css("text-align","left").css("width","100%");
+        $("#dtCol3").css("float","none").css("text-align","left").css("width","100%");
+        $("#details").css("height","120px");
+      } else {
+        hSize = "<h3>";
+      }
       currentVR = res;
       $("#sky").attr("src", res.filepath);
       filename = res.filename;
       $("#dtCol1 h3").html(res.filename);
       $("#dtCol2 h3 span").html(res.likes);
-      $("#dtCol3").html($("<h3>").html("Uploaded by " +
+      $("#dtCol3").html($(hSize).html("Uploaded by " +
         "<a href='/users?userid=" + res.owner + "'>" + res.owner + "</a> on " +
         res.timestamp.split('T')[0]));
       $("#description p").html(res.description);
@@ -30,7 +40,17 @@ $(document).ready(function() {
     success: function(res) {
       var rows = res.arr;
 
-      var tbl = $("#tblVRs").empty();
+      var tbl;
+      if(iOS()) {
+        tbl = $("#tblVRsMobile").empty();
+        tbl.before("<h3>Recently Uploaded VRs</h3>");
+        $("#col1").css("width","100%").css("padding-right","0px");
+        $("#col2").hide();
+      } else {
+        tbl = $("#tblVRs").empty();
+        tbl.before("<h3>Recently Uploaded VRs</h3>");
+      }
+
       var row,tr,td,img,h5,p;
       for(var i=0; i<rows.length; i++) {
         row = rows[i];
@@ -127,7 +147,12 @@ function addLike() {
   });
 }
 
-
+// Determine if device is iOS
+function iOS() {
+  console.log(navigator.userAgent);
+  var iOS = /iPad|iPhone|iPod|Android/.test(navigator.userAgent) && !window.MSStream;
+  return iOS;
+}
 
 
 

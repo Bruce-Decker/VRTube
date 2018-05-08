@@ -14,11 +14,11 @@ $(document).ready(function() {
       var lgi = json.loginInfo;
 
       if(lgi.loggedIn) {
-        $("#liLogin").hide();
+        //$("#liLogin").hide();
         $("#liLogout").show();
       } else {
         $("#liLogout").hide();
-        $("#liLogin").show();
+        //$("#liLogin").show();
       }
 
       if(lgi.loggedIn && lgi.username == username) {
@@ -96,27 +96,47 @@ function getVRs() {
 
       var tbl = $("#vrtable").empty();
       var row,tr,td,img,h4,p;
-      for(var i=0; i<rows.length; i++) {
-        row = rows[i];
-        if(i % 4 === 0) {
-          if(i !== 0) {
-            tr.appendTo(tbl);
-          }
+      if(iOS()) {
+        for(var i=0; i<rows.length; i++) {
+          row = rows[i];
           tr = $("<tr/>");
+          td = $("<td/>");
+          img = $("<img/>");
+          img.attr("src", row.filepath)
+             .attr("alt", row.filename)
+             .attr("height", "200")
+             .attr("width", "300")
+             .appendTo(td);
+          h4 = $("<h4/>").html(row.filename).appendTo(td);
+          p = $("<p/>").html(row.description).appendTo(td);
+          td.click(vrClickHandler(row.id));
+          tr.append(td);
+          tbl.append(tr);
         }
-        td = $("<td/>");
-        img = $("<img/>");
-        img.attr("src", row.filepath)
-           .attr("alt", row.filename)
-           .attr("height", "200")
-           .attr("width", "300")
-           .appendTo(td);
-        h4 = $("<h4/>").html(row.filename).appendTo(td);
-        p = $("<p/>").html(row.description).appendTo(td);
-        td.click(vrClickHandler(row.id));
-        td.appendTo(tr);
+        $("td").css("width","100%");
+      } else {
+        for(var i=0; i<rows.length; i++) {
+          row = rows[i];
+          if(i % 4 === 0) {
+            if(i !== 0) {
+              tr.appendTo(tbl);
+            }
+            tr = $("<tr/>");
+          }
+          td = $("<td/>");
+          img = $("<img/>");
+          img.attr("src", row.filepath)
+             .attr("alt", row.filename)
+             .attr("height", "200")
+             .attr("width", "300")
+             .appendTo(td);
+          h4 = $("<h4/>").html(row.filename).appendTo(td);
+          p = $("<p/>").html(row.description).appendTo(td);
+          td.click(vrClickHandler(row.id));
+          td.appendTo(tr);
+        }
+        tbl.append(tr);
       }
-      tbl.append(tr);
     }
   });
 }
@@ -169,3 +189,19 @@ function showLogoutDialog() {
     }
   });
 }
+
+// Determine if device is iOS
+function iOS() {
+  console.log(navigator.userAgent);
+  var iOS = /iPad|iPhone|iPod|Android/.test(navigator.userAgent) && !window.MSStream;
+  return iOS;
+}
+
+
+
+
+
+
+
+
+
