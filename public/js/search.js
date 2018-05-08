@@ -82,12 +82,15 @@ function showResults(n) {
       tr = $("<tr/>");
     }
     td = $("<td/>");
-    img = $("<img/>");
-    img.attr("src", row.filepath)
-       .attr("alt", row.filename)
-       .attr("height", "200")
-       .attr("width", "300")
-       .appendTo(td);
+    let ext = getExtension(row.filename);
+    if(ext != "gltf") {
+      img = $("<img/>");
+      img.attr("src", row.filepath)
+         .attr("alt", row.filename)
+         .attr("height", "200")
+         .attr("width", "300")
+         .appendTo(td);
+    }
     $("<h4/>").html(row.filename).appendTo(td);
     $("<p/>").html("Uploaded by " + "<a href='/users?userid=" + row.owner + "'>" +
       row.owner + "</a> on " + row.timestamp.split("T")[0]).appendTo(td);
@@ -120,6 +123,11 @@ function getParameterByName(name, url) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+// Gets the file extension
+function getExtension(filename) {
+  return filename.split('.').pop();
 }
 
 // Show the log out dialog

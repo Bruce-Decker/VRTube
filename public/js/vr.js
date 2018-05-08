@@ -18,7 +18,21 @@ $(document).ready(function() {
         hSize = "<h3>";
       }
       currentVR = res;
-      $("#sky").attr("src", res.filepath);
+
+      let ext = getExtension(res.filename);
+      let scene = $("#scene");
+      let assets = $("#assets");
+      let asset, frame;
+      if(ext == "gltf") {
+        asset = $("<a-asset-item>").attr("id","sky").attr("src", res.filepath);
+        frame = $("<a-gltf-model>").attr("src","#sky");
+      } else {
+        asset = $("<img>").attr("id","sky").attr("src", res.filepath);
+        frame = $("<a-sky>").attr("src","#sky");
+      }
+      assets.append(asset);
+      scene.append(frame);
+
       filename = res.filename;
       $("#dtCol1 h3").html(res.filename);
       $("#dtCol2 h3 span").html(res.likes);
@@ -56,12 +70,15 @@ $(document).ready(function() {
         row = rows[i];
         tr = $("<tr/>");
         td = $("<td/>");
-        img = $("<img/>");
-        img.attr("src", row.filepath)
-           .attr("alt", row.filename)
-           .attr("height", "160")
-           .attr("width", "240")
-           .appendTo(td);
+        let ext = getExtension(row.filename);
+        if(ext != "gltf") {
+          img = $("<img/>");
+          img.attr("src", row.filepath)
+             .attr("alt", row.filename)
+             .attr("height", "160")
+             .attr("width", "240")
+             .appendTo(td);
+        }
         h5 = $("<h5/>").html(row.filename + "&nbsp;&nbsp;&nbsp;" + row.likes +
           " <i class='far fa-thumbs-up'></i>").appendTo(td);
         p = $("<p/>").html("Uploaded by " +
@@ -116,6 +133,11 @@ $(document).ready(function() {
     $("#sldThumb").css("display", "none");
   });
 });
+
+// Gets the file extension
+function getExtension(filename) {
+  return filename.split('.').pop();
+}
 
 // Returns a click handler for a VR
 function vrClickHandler(id) {

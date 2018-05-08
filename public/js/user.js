@@ -101,12 +101,15 @@ function getVRs() {
           row = rows[i];
           tr = $("<tr/>");
           td = $("<td/>");
-          img = $("<img/>");
-          img.attr("src", row.filepath)
-             .attr("alt", row.filename)
-             .attr("height", "200")
-             .attr("width", "300")
-             .appendTo(td);
+          let ext = getExtension(row.filename);
+          if(ext != "gltf") {
+            img = $("<img/>");
+            img.attr("src", row.filepath)
+               .attr("alt", row.filename)
+               .attr("height", "200")
+               .attr("width", "300")
+               .appendTo(td);
+          }
           h4 = $("<h4/>").html(row.filename).appendTo(td);
           p = $("<p/>").html(row.description).appendTo(td);
           td.click(vrClickHandler(row.id));
@@ -124,12 +127,15 @@ function getVRs() {
             tr = $("<tr/>");
           }
           td = $("<td/>");
-          img = $("<img/>");
-          img.attr("src", row.filepath)
-             .attr("alt", row.filename)
-             .attr("height", "200")
-             .attr("width", "300")
-             .appendTo(td);
+          let ext = getExtension(row.filename);
+          if(ext != "gltf") {
+            img = $("<img/>");
+            img.attr("src", row.filepath)
+               .attr("alt", row.filename)
+               .attr("height", "200")
+               .attr("width", "300")
+               .appendTo(td);
+          }
           h4 = $("<h4/>").html(row.filename).appendTo(td);
           p = $("<p/>").html(row.description).appendTo(td);
           td.click(vrClickHandler(row.id));
@@ -188,6 +194,11 @@ function showLogoutDialog() {
       }
     }
   });
+}
+
+// Gets the file extension
+function getExtension(filename) {
+  return filename.split('.').pop();
 }
 
 // Determine if device is iOS
