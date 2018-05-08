@@ -48,6 +48,7 @@
         <button class="tablinks active" onclick="openTab(event, 'vrtab')">VRs</button>
         <button class="tablinks loggedInOnly" onclick="openTab(event, 'uptab')">Upload</button>
         <button class="tablinks loggedInOnly" onclick="openTab(event, 'setab')">Settings</button>
+        <button class="tablinks loggedInOnly" onclick="openTab(event, 'crtab')">Create</button>
       </div>
 
       <div id="vrtab" class="tabcontent">
@@ -61,7 +62,7 @@
           <label for="descriptionInput">VR Description:</label>
           <br/><textarea name="descriptionInput" id="descriptionInput" rows="10" cols="80" form="fileForm"/></textarea>
           <input type="hidden" name="usernameInput" id="usernameInput" /><br/><br/>
-          <label for="fileInput">Choose an image file to upload (supported formats are .jpg, .jpeg, .png, and .gltf)</label>
+          <label for="fileInput">Choose a VR file to upload (supported formats are .jpg, .jpeg, .png, and .gltf)</label>
           <br/><input type="file" name="fileInput" id="fileInput" onchange="enableSubmit();"/><br/>
           <input id="fileSubmit" type="submit" value="Upload File" disabled />
         </form>
@@ -74,6 +75,11 @@
         <p class="pSettings">Name: <span id="spnName" class="sSettings"></span></p>
         <p class="pSettings">Username: <span id="spnUsername" class="sSettings"></span></p>
         <p class="pSettings">Email address: <span id="spnEmail" class="sSettings"></span></p>
+      </div>
+
+      <div id="crtab" class="tabcontent">
+        <p>To create a new VR, use the editor below. Once you are satisfied with your scene, choose File -> Export GLTF from the menu, then upload your file in the "upload" tab.<p/>
+        <iframe src="https://threejs.org/editor/" width="100%" height="620" style="border:none;"></iframe>
       </div>
     </div>
   </body>
