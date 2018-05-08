@@ -53,39 +53,47 @@ router.get('/getUserInfo', function(req, res, next) {
 // register a new account
 // register a new account
 router.post('/signup', function(req, res, next) {
-  var firstName = req.body.firstname;
-  var lastName = req.body.lastname;
-  var userName = req.body.username;
+  var firstname = req.body.firstname;
+  var lastname = req.body.lastname;
+  var username = req.body.username;
   var password = req.body.password;
   var email = req.body.email;
   let res_result =  {
                       message:''
                     };
-
+  console.log("User attempting to register: fn="+firstname+",ln="+lastname+",pwd="+password+",un="+username+",email="+email);
   var checkQuery = "select * from user where username ='" + username +"'";
+  console.log("GOOD: set checkQuery");
   mysql.executeSQLQuery(checkQuery , function(err , results){
+    console.log("GOOD: in checkQuery handler");
+    console.log("results: "+results);
     if(results.length <= 0) {
+      console.log("GOOD: no users currently found");
       bcrypt.hash(password, saltRnd, function(err, hashpassword) {
         if(!err) {
-          var userHome = userName;
-          localStorage.setItem("username", username)
+          console.log("GOOD: no error from hashing");
+          var userHome = username;
+          localStorage.setItem("username", username);
+          console.log("GOOD: was able to set localStorage");
           var userQuery = "insert into user (firstname, lastname, username, password, homedir, email) values ('"+
-          firstName + "','" + lastName + "','" + userName + "','" + hashpassword + "','" + userHome +"','"+email+"')";
+          firstname + "','" + lastname + "','" + username + "','" + hashpassword + "','" + userHome +"','"+email+"')";
           console.log(userQuery);
 
           mysql.executeSQLQuery(userQuery, function(err, result){
             if(err){
+              console.log("Signup error: could not insert into database");
               res_result.message = "Registration failed !!!";
-              res.status(400).json(res_result);
+              //res.status(400).json(res_result);
+              res.redirect('back');
             }else{
-              var success_msg = "User '"+ firstName+"'' added successfully !!!";
+              var success_msg = "User '"+ firstname+"'' added successfully !!!";
               utils.createDirectory(path.join(__dirname , './../uploads' , userHome) , function(status) {
                 if(status) {
                   res_result.message = "Registration succeeded !!!";
                   //res.status(200).json(res_result);
-                  console.log("User '"+ firstName+"'' registered!");
+                  console.log("User '"+ firstname+"'' registered!");
 
-                  let userQuery2 = "select * from user where username ='" + userName +"'";
+                  let userQuery2 = "select * from user where username ='" + username +"'";
                   let status2 = 400;
                   let res_result2 = {
                                     id:'',
@@ -101,7 +109,7 @@ router.post('/signup', function(req, res, next) {
                       res_result2.username = result2[0].username;
                       res_result2.message = "Login successful!";
                       status2 = 200;
-                      console.log("User '" + userName + "' logged in");
+                      console.log("User '" + username + "' logged in");
 
                       // set session variables for this user
                       currentUser.loggedIn = true;
@@ -115,24 +123,31 @@ router.post('/signup', function(req, res, next) {
                     if(status2 === 200) {
                       res.redirect('/users?userid=' + res_result2.username);
                     } else {
-                      res.status(status2).json(res_result2);
+                      //res.status(status2).json(res_result2);
+                      console.log("Signup error: could not find user");
+                      res.redirect('back');
                     }
                   });
 
                 }else {
-                  console.log("[Unable to create directory] for user: " + userName);
+                  console.log("Signup error: unable to create directory for user: " + username);
+                  res.redirect('back');
                 }
               });
             }
           });
         } else {
-          res_result.message = "Error hashing password";
-          res.status(500).json(res_result);
+          console.log("Signup error hashing password");
+          res.redirect('back');
+          //res_result.message = "Error hashing password";
+          //res.status(500).json(res_result);
         }
       });
     }else{
-      res_result.message = "username or email already exists!"
-      res.status(200).json(res_result);
+      console.log("Signup error hashing password: username already exists");
+      res.redirect('back');
+      //res_result.message = "username already exists!"
+      //res.status(200).json(res_result);
     }
   });
 });
@@ -181,7 +196,8 @@ router.post('/login' , function(req, res, next) {
     if(status === 200) {
       res.redirect('/users?userid=' + res_result.username);
     } else {
-      res.status(status).json(res_result);
+      //res.status(status).json(res_result);
+      res.redirect('back');
     }
   });
 });
