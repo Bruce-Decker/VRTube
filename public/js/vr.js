@@ -71,14 +71,14 @@ $(document).ready(function() {
         tr = $("<tr/>");
         td = $("<td/>");
         let ext = getExtension(row.filename);
-        if(ext != "gltf") {
-          img = $("<img/>");
-          img.attr("src", row.filepath)
-             .attr("alt", row.filename)
-             .attr("height", "160")
-             .attr("width", "240")
-             .appendTo(td);
-        }
+        let src = (ext == "gltf") ? "assets/default.png" : row.filepath;
+        let wth = (ext == "gltf") ? "160" : "240";
+        img = $("<img/>");
+        img.attr("src", src)
+           .attr("alt", row.filename)
+           .attr("height", "160")
+           .attr("width", wth)
+           .appendTo(td);
         h5 = $("<h5/>").html(row.filename + "&nbsp;&nbsp;&nbsp;" + row.likes +
           " <i class='far fa-thumbs-up'></i>").appendTo(td);
         p = $("<p/>").html("Uploaded by " +

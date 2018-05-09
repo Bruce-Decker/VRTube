@@ -102,14 +102,14 @@ function getVRs() {
           tr = $("<tr/>");
           td = $("<td/>");
           let ext = getExtension(row.filename);
-          if(ext != "gltf") {
-            img = $("<img/>");
-            img.attr("src", row.filepath)
-               .attr("alt", row.filename)
-               .attr("height", "200")
-               .attr("width", "300")
-               .appendTo(td);
-          }
+          let src = (ext == "gltf") ? "assets/default.png" : row.filepath;
+          let wth = (ext == "gltf") ? "200" : "300";
+          img = $("<img/>");
+          img.attr("src", src)
+             .attr("alt", row.filename)
+             .attr("height", "200")
+             .attr("width", wth)
+             .appendTo(td);
           h4 = $("<h4/>").html(row.filename).appendTo(td);
           p = $("<p/>").html(row.description).appendTo(td);
           td.click(vrClickHandler(row.id));
@@ -128,14 +128,14 @@ function getVRs() {
           }
           td = $("<td/>");
           let ext = getExtension(row.filename);
-          if(ext != "gltf") {
-            img = $("<img/>");
-            img.attr("src", row.filepath)
-               .attr("alt", row.filename)
-               .attr("height", "200")
-               .attr("width", "300")
-               .appendTo(td);
-          }
+          let src = (ext == "gltf") ? "assets/default.png" : row.filepath;
+          let wth = (ext == "gltf") ? "200" : "300";
+          img = $("<img/>");
+          img.attr("src", src)
+             .attr("alt", row.filename)
+             .attr("height", "200")
+             .attr("width", wth)
+             .appendTo(td);
           h4 = $("<h4/>").html(row.filename).appendTo(td);
           p = $("<p/>").html(row.description).appendTo(td);
           td.click(vrClickHandler(row.id));
