@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
     console.log(q);
     res.render('search');
   } else {
-    res.render('error');
+    res.render('search');
   }
 });
 
