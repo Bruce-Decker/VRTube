@@ -11,6 +11,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
 
 def main():
+  #ip = "localhost";
+  ip = "ec2-54-193-63-25.us-west-1.compute.amazonaws.com"
+
   # setup Chrome
   chrome_options = Options()
   chrome_options.add_argument("--window-size=1500,1000")
@@ -18,7 +21,7 @@ def main():
   driver = webdriver.Chrome(executable_path=driver_path, chrome_options=chrome_options)
 
   # open user page for user 'bam'
-  driver.get('http://localhost:3000/users?userid=bam')
+  driver.get('http://'+ip+':3000/users?userid=bam')
   time.sleep(3)
   
   # search for keyword 'jpg'
