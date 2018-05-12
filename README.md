@@ -12,6 +12,7 @@ Given the broad description of our application above, we can distill it into sev
 - Provide a comfortable user experience, in an intuitive and collaborative environment
 - Make it simple for users to create their own VRs and for them to view others’ VRs
 
+A brief summary of the project architecture, as well as several screenshots of the running application, are provided below. Additional details can be found in our [project report](https://github.com/mtkwong/VRTube/blob/master/docs/report.pdf).
 
 #### Setup &amp; Run
 
