@@ -1,7 +1,7 @@
 ## VRTube
 CMPE 280 SP18 Team Project<br/>
 Team name: BAM<br/>
-Team members: Matthew Kwong <matthew.kwong@sjsu.edu>, Akash Gupta <akash.gupta@sjsu.edu>, Bruce Decker <bruce.decker@sjsu.edu>
+
 
 #### Project Description
 Through this project, our team seeks to provide a platform by which users can create, share, and participate in virtual reality experiences, both their own and those of others. At a high level, the project is a web application supporting user authentication, file uploads, creation and viewing of virtual realities (think of it like Youtube, but for VR).
